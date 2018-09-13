@@ -2,6 +2,10 @@
   "name": "jsonapp",
   "version": "0.0.1",
   "description": "json to application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",

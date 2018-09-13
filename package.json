@@ -1,0 +1,15 @@
+{
+  "name": "jsonapp",
+  "version": "0.0.1",
+  "description": "json to application",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-xml-bodyparser": "^0.3.0",
+    "mongodb": "^3.1.4",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}

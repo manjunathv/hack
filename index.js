@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var xmlparser = require('express-xml-bodyparser');
 var db = require('mongodb');
+const PORT = process.env.PORT || 5000
 
 
 app.get('/',function( req,res) {
@@ -36,7 +37,7 @@ io.on('connection', function (socket)
   });
 });
 
-http.listen(3000, function(req, res) {
+http.listen(PORT, function(req, res) {
 
 	console.log("listenig to port 3000");
 });

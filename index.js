@@ -16,7 +16,9 @@ app.post('/receive-xml', xmlparser({trim: false, explicitArray: false}), functio
     // check req.body  
     //next(req.body.body.data);
     var data= req.body.body;
+
     console.log(data);
+    io.emit('chat message',data);
     res.send(data);
 });
 

@@ -14,37 +14,136 @@
     </style>
   </head>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
   $(function () {
     var socket = io();
-
-    $('form').submit(function()
-      {
-          socket.emit('chat message',$('#m').val());
-          $('#m').val('');
-          return false;
-      }
-   );
       
    socket.on('chat message',function(msg)
     {
       var component = JSON.parse(msg);
-      $('#messages').append( $('<li>').text( component.SerialNumber) ); 
-       
+     
+      var data = [];
       component.measurements.forEach(element => {
-          console.log(element.MetricName+','+element.Value);
-      });  
-   });    
+          //console.log(element.MetricName+','+element.Value);
+          //data.push(element.Value);
+
+          if( element.MetricName == 'Unknown.PC.CPUDiagnostic')
+          {
+            var markup = "<tr><td>" + element.DateTime + "</td><td>" + element.Value + "</td></tr>";
+            $("#cpubody").append(markup);
+          }
+          if( element.MetricName == 'Unknown.PC.HDDDiagnostic')
+          {
+            var markup = "<tr><td>" + element.DateTime + "</td><td>" + element.Text + "</td></tr>";
+            $("#hddbody").append(markup);
+          }
+          if( element.MetricName == 'Unknown.PC.RAMDiagnostic')
+          {
+            var markup = "<tr><td>" + element.DateTime + "</td><td>" + element.Text + "</td></tr>";
+            $("#rambody").append(markup);
+          }
+      }); 
+      
+      $("#serialNumber").html(component.SerialNumber);
+      $("#model").html(component.Model);
+      $("#category").html(component.Category);
+      $("#revision").html(component.Revision);
+      $("#lotnumber").html(component.LotNumber);
+      $("#version").html(component.Revision);
+      $("#partnumber").html(component.PartNumber);
       
   });
+});
 </script>
 
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    
+    <table class="table" >
+      <thead>
+        <tr>
+          Device component
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Serial Number</th>
+          <td id="serialNumber"></td>
+          
+          <th scope="row">Model</th>
+          <td id="model"></td>
+          
+        </tr>
+        <tr>
+          <th scope="row">Category</th>
+          <td id="category"></td>
+          <th scope="row">Revision</th>
+          <td id="revision"></td>
+ 
+        </tr>
+        <tr>
+          <th scope="row">LotNumber</th>
+          <td id="lotnumber"></td>
+          <th scope="row">Version</th>
+          <td id="version"></td>
+ 
+        </tr>
+        <tr>
+            <th scope="row">PartNumber</th>
+            <td id="partnumber"></td>
+          </tr>
+      </tbody>
+    </table>
+
+    <br>
+    <br>
+    <label>CPU Diagnostics</label>
+    <table id ="cpu" class="table" style="display: inline-block;">
+        <thead>
+          <tr>
+              <th scope="row">TimeStamp</th>
+              <td>Value</td>
+          </tr>
+        </thead>
+        <tbody id="cpubody">
+          
+        </tbody>
+    </table>
+    <br>
+
+    <label>HDD Diagnostics</label>
+    <table id ="hdd" class="table" style="display: inline-block;">
+        <thead>
+          <tr>
+              <th scope="row">TimeStamp</th>
+              <td>Value</td>
+          </tr>
+        </thead>
+        <tbody id="hddbody">
+          
+        </tbody>
+    </table>
+
+    <br>
+    <label>RAM Diagnostics</label>
+    <table id ="ram" class="table" style="display: inline-block;">
+        <thead>
+          <tr>
+              <th scope="row">TimeStamp</th>
+              <td>Value</td>
+          </tr>
+        </thead>
+        <tbody id="rambody">
+          
+        </tbody>
+    </table>
+
+
   </body>
 </html>
-

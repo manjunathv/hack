@@ -32,7 +32,7 @@ var measurementSchema = new Schema(
     DateTime: Date,
     Flag: String,
     MetricName: String,
-    Text: Number,
+    Text: String,
     Type: String,
     Value: Number,
     Version: String
@@ -79,6 +79,19 @@ var Event = mongoose.model('Event', eventSchema);
 
 mongoose.connect('mongodb://heroku_x60fnssm:dqmi6t7i589bl0933cleo16o29@ds157742.mlab.com:57742/heroku_x60fnssm');
 
+io.on('connection', function (socket)
+{
+    socket.on('chat message',function(msg)
+    {
+        console.log('message: '+msg);
+        io.emit('chat message',msg);
+    });
+    socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
+
 app.get('/',function( req,res) {
 
 	res.sendFile(__dirname +'/index.html');
@@ -101,6 +114,8 @@ app.post('/receive-xml', xmlparser({trim: false, explicitArray: false}), functio
         {
             console.log('data exist');
             component = populateJson(component,data);
+
+            io.emit('chat message',JSON.stringify( component));
 
             component.save(function(err, result) {
                 if (err) throw err;
@@ -185,7 +200,8 @@ function populateJson(component,data)
                     DateTime : mjson.DateTime.DateTimeUtc,
                     MetricName : mjson.MetricName,
                     Value : mjson.Value,
-                    Type : mjson.Type
+                    Type : mjson.Type,
+                    Text: mjson.Text
                 });
 
             }

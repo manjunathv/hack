@@ -149,6 +149,12 @@ app.post('/receive-xml', xmlparser({trim: false, explicitArray: false}), functio
     res.send(data);
 });
 
+app.get('/data', function(req, res) {
+    DeviceComponent.find({}, function(err, component) {
+       res.send( {component: component});
+    });
+});
+
 
 io.on('connection', function (socket)
 {

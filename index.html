@@ -36,7 +36,7 @@
 
           if( element.MetricName == 'Unknown.PC.CPUDiagnostic')
           {
-            var markup = "<tr><td>" + element.DateTime + "</td><td>" + element.Value + "</td></tr>";
+            var markup = "<tr class=\"sucess\"><td>" + element.DateTime + "</td><td>" + element.Value + "</td></tr>";
             $("#cpubody").append(markup);
           }
           if( element.MetricName == 'Unknown.PC.HDDDiagnostic')
@@ -45,6 +45,12 @@
             $("#hddbody").append(markup);
           }
           if( element.MetricName == 'Unknown.PC.RAMDiagnostic')
+          {
+            var markup = "<tr><td>" + element.DateTime + "</td><td>" + element.Text + "</td></tr>";
+            $("#rambody").append(markup);
+          }
+
+          if( element.MetricName == 'Unknown.Events.TemperatureOutofRange')
           {
             var markup = "<tr><td>" + element.DateTime + "</td><td>" + element.Text + "</td></tr>";
             $("#rambody").append(markup);
@@ -65,85 +71,133 @@
 
   <body>
     
-    <table class="table" >
-      <thead>
-        <tr>
-          Device component
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Serial Number</th>
-          <td id="serialNumber"></td>
-          
-          <th scope="row">Model</th>
-          <td id="model"></td>
-          
-        </tr>
-        <tr>
-          <th scope="row">Category</th>
-          <td id="category"></td>
-          <th scope="row">Revision</th>
-          <td id="revision"></td>
- 
-        </tr>
-        <tr>
-          <th scope="row">LotNumber</th>
-          <td id="lotnumber"></td>
-          <th scope="row">Version</th>
-          <td id="version"></td>
- 
-        </tr>
-        <tr>
-            <th scope="row">PartNumber</th>
-            <td id="partnumber"></td>
-          </tr>
-      </tbody>
-    </table>
+    <div class="container-fluid" >
+       
+        <div class="row" >
+            <div class="panel panel-success" >
 
-    <br>
-    <br>
-    <label>CPU Diagnostics</label>
-    <table id ="cpu" class="table" style="display: inline-block;">
-        <thead>
-          <tr>
-              <th scope="row">TimeStamp</th>
-              <td>Value</td>
-          </tr>
-        </thead>
-        <tbody id="cpubody">
-          
-        </tbody>
-    </table>
-    <br>
+                <div class="panel-heading"> <h3> <span class="label label-success" >Device component</span> </h3> </div>
+                <div class="panel-body">
+                <table class="table" >
+                  
+                  <tbody>
+                    <tr>
+                      <th scope="row">Serial Number</th>
+                      <td id="serialNumber"></td>
+                      
+                      <th scope="row">Model</th>
+                      <td id="model"></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">Category</th>
+                      <td id="category"></td>
+                      <th scope="row">Revision</th>
+                      <td id="revision"></td>
+            
+                    </tr>
+                    <tr>
+                      <th scope="row">LotNumber</th>
+                      <td id="lotnumber"></td>
+                      <th scope="row">Version</th>
+                      <td id="version"></td>
+            
+                    </tr>
+                    <tr>
+                        <th scope="row">PartNumber</th>
+                        <td id="partnumber"></td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+          </div>
+        </div>  
 
-    <label>HDD Diagnostics</label>
-    <table id ="hdd" class="table" style="display: inline-block;">
-        <thead>
-          <tr>
-              <th scope="row">TimeStamp</th>
-              <td>Value</td>
-          </tr>
-        </thead>
-        <tbody id="hddbody">
-          
-        </tbody>
-    </table>
+        <div class="row">
+            <div class="col-sm-4">
+              <div class="panel panel-success" >
 
-    <br>
-    <label>RAM Diagnostics</label>
-    <table id ="ram" class="table" style="display: inline-block;">
-        <thead>
-          <tr>
-              <th scope="row">TimeStamp</th>
-              <td>Value</td>
-          </tr>
-        </thead>
-        <tbody id="rambody">
-          
-        </tbody>
-    </table>
+               <div class="panel-heading"> <h3> <span class="label label-success" >CPU Diagnostics</span> </h3> </div>
+               <div class="panel-body">
+                <table id ="cpu" class="table" >
+                    <thead>
+                      <tr>
+                          <td>TimeStamp</th>
+                          <td>Value</td>
+                      </tr>
+                    </thead>
+                    <tbody id="cpubody">
+                      
+                    </tbody>
+                </table>
+              </div>
+              </div> 
+            </div>
+      
+            <div class="col-sm-4">
+              <div class="panel panel-success" >
+                <div class="panel-heading"> <h3> <span class="label label-success" >HDD Diagnostics</span> </h3> </div>
+                <div class="panel-body">
+                  <table id ="hdd" class="table" >
+                      <thead>
+                        <tr>
+                            <td>TimeStamp</th>
+                            <td>Value</td>
+                        </tr>
+                      </thead>
+                      <tbody id="hddbody">
+                        
+                      </tbody>
+                  </table>
+                  </div>
+                </div>
+            </div>
 
+          <div class="col-sm-4">
+            <h3> <span class="label label-success">RAM Diagnostics</span> </h3>
+            <table id ="ram" class="table" >
+                <thead>
+                  <tr>
+                      <td>TimeStamp</th>
+                      <td>Value</td>
+                  </tr>
+                </thead>
+                <tbody id="rambody">
+                  
+                </tbody>
+            </table>
+          </div> 
+
+        </div>
+
+      <div >
+          <h3> <span class="label label-success">Events</span> </h3>
+          <div class="col-sm-6">
+            <table id ="event" class="table" >
+                <thead>
+                  <tr>
+                      <td>TimeStamp</th>
+                      <td>Value</td>
+                  </tr>
+                </thead>
+                <tbody id="eventbody">
+                  
+                </tbody>
+            </table>
+        </div>
+      </div>
+
+      <div class="alert alert-danger alert fade in">
+          <strong>Success!</strong> Indicates a successful or positive <a href="#" class="close" data-dismiss="alert" area-label="close">&timesbar;</a>
+      </div>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="70"
+        aria-valuemin="0" aria-valuemax="100" style="width:70%">
+          <span >70% Complete</span>
+        </div>
+    </div>  
+  </div>
 
   </body>
 </html>

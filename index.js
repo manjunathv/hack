@@ -108,7 +108,7 @@ app.post('/receive-xml', xmlparser({trim: false, explicitArray: false}), functio
     
     DeviceComponent.findOne({SerialNumber:jsonComponent.SerialNumber }, function(err, component)
     {
-        if (err) return handleError(err);
+        //if (err) return handleError(err);
         
         if( component)
         {
@@ -147,6 +147,8 @@ app.post('/receive-xml', xmlparser({trim: false, explicitArray: false}), functio
             });
 
             component = populateJson(component,data);
+
+            io.emit('chat message',JSON.stringify( component));
             component.save(function(err, result) {
                 if (err) throw err;
         
@@ -157,7 +159,7 @@ app.post('/receive-xml', xmlparser({trim: false, explicitArray: false}), functio
             });
         }
             //push data to connected clients
-        io.emit('chat message',JSON.stringify( component));
+        
 
     });
     
@@ -215,7 +217,8 @@ function populateJson(component,data)
                     Category : ejson.Category,
                     Code : ejson.Code,
                     Type : ejson.Type,
-                    Severity : ejson.Severity
+                    Severity : ejson.Severity,
+                    Name : ejson.Name
                 });
             }
         });
